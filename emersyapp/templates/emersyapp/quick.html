@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<body style='margin:0px;'>
+	<iframe id='emersyaIframe' src='https://emersya.com/showcase/DT0STRJNW1' allow='camera; gyroscope; accelerometer; magnetometer;' webkitallowfullscreen='' allowfullscreen='' width='100%' height='490px' style='border:none;display:block;'></iframe>
+	<div class='configurationPanel' style='position:absolute; top:20px; right:20px; background-color:rgba(0,0,0,0.1); padding:10px; box-sizing:border-box;border-radius: 30px;'>
+		<div class='configurationPanelSubSectionChoiceSelector' onmouseup='switchConfiguration("mat_black")' style='margin:10px 5px; background-color:#070707; width:30px; height:30px; border-radius:15px; cursor:pointer'></div>
+		<div class='configurationPanelSubSectionChoiceSelector' onmouseup='switchConfiguration("glossy_teal")' style='margin:10px 5px; background-color:#00b1ab; width:30px; height:30px; border-radius:15px; cursor:pointer'></div>
+	</div>
+	<script type='text/javascript'>
+		var viewerIframe = null;
+		var viewerActive = false;
+		document.getElementById('emersyaIframe').onload = function() {
+			viewerIframe = document.getElementById('emersyaIframe').contentWindow;
+			window.removeEventListener('message', viewerEventListener ,false);
+			viewerIframe.postMessage({
+				action : 'setMaterialsGroup'
+			}, '*');
+            
+			window.addEventListener('message', viewerEventListener, false);
+			viewerIframe.postMessage({
+				action:'getViewerState'
+			}, '*');
+		};
+
+		var viewerEventListener =  function(event){
+			if(event.data && event.data.action == 'onStateChange'){
+				if(event.data.state.viewerState == 'loaded' || event.data.state.viewerState == 'fallbackloaded'){
+					viewerActive = true;
+				}
+			}
+			if(event.data && event.data.action == 'onError'){
+				console.log(event);
+			}
+		};
+
+		var switchConfiguration = function(configurationName){
+			if(viewerActive){
+				viewerIframe.postMessage({
+					action:'setMaterials',
+					materials : [{materialVariation : configurationName, configurableMaterial : 'logo'}]
+				}, '*');
+			};
+		};
+	</script>
+</body>
+</html>
