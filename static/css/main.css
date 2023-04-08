@@ -1,3 +1,13 @@
 .box{
     margin-top: 120px;
 }
+
+.configuration_ul{
+    justify-content:space-around;
+    list-style-type:none;
+}
+
+.configuration_ul li{
+    display: inline;
+    margin: 10px;
+}
