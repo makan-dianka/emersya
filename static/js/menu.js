@@ -9,7 +9,7 @@ let menu = [
     },
     {
         'groupName' : 'Mesh Material', 
-        'configName' : ['roso', 'blue', 'nero', 'bianco'],
+        'configName' : ['roso', 'blue', 'nero', 'blanco'],
     }
 ]
 
